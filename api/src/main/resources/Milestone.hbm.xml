@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+		"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="org.openmrs.module.scheduletracker" >
+    <class name="Milestone" table="scheduletracker_milestone">
+        <id column="milestone_id" name="milestoneId" type="int" unsaved-value="0">
+            <generator class="identity"/>
+        </id>
+
+        <property name="name" column="name" type="java.lang.String" not-null="true" unique="true" />
+
+        <property name="early" column="early" type="java.lang.String" />
+		<property name="earlyAlertOffset" column="early_alert_offset" type="java.lang.String" />
+		<property name="earlyAlertInterval" column="early_alert_interval" type="java.lang.String" />
+		<property name="earlyAlertCount" column="early_alert_count" type="java.lang.Integer" />
+		
+		<property name="due" column="due" type="java.lang.String" />
+		<property name="dueAlertOffset" column="due_alert_offset" type="java.lang.String" />
+		<property name="dueAlertInterval" column="due_alert_interval" type="java.lang.String" />
+		<property name="dueAlertCount" column="due_alert_count" type="java.lang.Integer" />
+				
+		<property name="late" column="late" type="java.lang.String" />
+		<property name="lateAlertOffset" column="late_alert_offset" type="java.lang.String" />
+		<property name="lateAlertInterval" column="late_alert_interval" type="java.lang.String" />
+		<property name="lateAlertCount" column="late_alert_count" type="java.lang.Integer" />
+		
+		<property name="max" column="max" type="java.lang.String" />
+		<property name="maxAlertOffset" column="max_alert_offset" type="java.lang.String" />
+		<property name="maxAlertInterval" column="max_alert_interval" type="java.lang.String" />
+		<property name="maxAlertCount" column="max_alert_count" type="java.lang.Integer" />
+		
+		<many-to-one name="schedule" class="org.openmrs.module.scheduletracker.Schedule" not-null="true"/>
+
+		<property name="description" column="description" type="java.lang.String"/>
+		<property name="uuid" column="uuid" type="java.lang.String" not-null="true" unique="true" />
+			
+		<many-to-one name="creator" class="org.openmrs.User" not-null="true" />
+		<property name="dateCreated" column="date_created" type="java.util.Date" not-null="true" />
+		<many-to-one name="changedBy" column="changed_by" class="org.openmrs.User" />
+		<property name="dateChanged" column="date_changed" type="java.util.Date" />
+		<property name="voided" column="voided" type="boolean" not-null="true" />
+		<many-to-one name="voidedBy" column="voided_by" class="org.openmrs.User" />
+		<property name="dateVoided" column="date_voided" type="java.util.Date" />
+		<property name="voidReason" column="void_reason" type="java.lang.String" />
+    </class>
+</hibernate-mapping>
+

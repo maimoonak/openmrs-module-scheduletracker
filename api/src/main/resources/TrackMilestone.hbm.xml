@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+		"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="org.openmrs.module.scheduletracker" >
+    <class name="TrackMilestone" table="scheduletracker_track_milestone">
+        <id column="track_milestone_id" name="trackMilestoneId" type="int" unsaved-value="0">
+            <generator class="identity"/>
+        </id>
+        <property name="actionType" column="action_type" type="java.lang.String" />
+        <property name="alertExpiryDate" column="alert_expiry_date" type="java.util.Date" not-null="true" />
+        <property name="alertStartDate" column="alert_start_date" type="java.util.Date" not-null="true" />
+        <property name="fulfillmentDate" column="fulfillment_date" type="java.util.Date" />
+        <property name="isActive" column="is_active" type="boolean" not-null="true" />
+        <many-to-one name="milestone" class="org.openmrs.module.scheduletracker.Milestone" not-null="true" />
+        <property name="reasonClosed" column="reason_closed" type="java.lang.String" />
+        <property name="status" column="status" type="java.lang.String" not-null="true"/>
+		<many-to-one name="track" class="org.openmrs.module.scheduletracker.Track" not-null="true" />
+		
+		<property name="uuid" column="uuid" type="java.lang.String" not-null="true" unique="true"/>
+			
+		<many-to-one name="creator" class="org.openmrs.User" not-null="true" />
+		<property name="dateCreated" column="date_created" type="java.util.Date" not-null="true" />
+		<many-to-one name="changedBy" column="changed_by" class="org.openmrs.User" />
+		<property name="dateChanged" column="date_changed" type="java.util.Date" />
+		<property name="voided" column="voided" type="boolean" not-null="true" />
+		<many-to-one name="voidedBy" column="voided_by" class="org.openmrs.User" />
+		<property name="dateVoided" column="date_voided" type="java.util.Date" />
+		<property name="voidReason" column="void_reason" type="java.lang.String" />
+    </class>
+</hibernate-mapping>
+

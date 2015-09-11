@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+		"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="org.openmrs.module.scheduletracker" >
+    <class name="Track" table="scheduletracker_track">
+        <id column="track_id" name="trackId" type="int" unsaved-value="0">
+            <generator class="identity"/>
+        </id>
+		<many-to-one name="beneficiary" class="org.openmrs.Person" not-null="true" />
+        <property name="beneficiaryRole" column="beneficiary_role" type="java.lang.String" />
+		<many-to-one name="recipient" class="org.openmrs.Person" not-null="true" />
+        <property name="recipientRole" column="recipient_role" type="java.lang.String" />
+		<many-to-one name="currentMilestone" column="current_milestone" class="org.openmrs.module.scheduletracker.Milestone" not-null="true" />
+        <property name="dateEnrolled" column="date_enrolled" type="java.util.Date" not-null="true" />
+        <property name="earlyStartDate" column="early_start_date" type="java.util.Date" not-null="true" />
+        <property name="dueStartDate" column="due_start_date" type="java.util.Date" not-null="true" />
+        <property name="lateStartDate" column="late_start_date" type="java.util.Date" not-null="true" />
+        <property name="maxStartDate" column="max_start_date" type="java.util.Date" not-null="true" />
+		<set name="milestones" lazy="true" cascade="all-delete-orphan,evict" inverse="true" access="field" batch-size="25">
+			<key column="track_id" not-null="true" />
+			<one-to-many class="TrackMilestone" />
+		</set>
+        <property name="preferredAlertTime" column="preferred_alert_time" type="java.sql.Time" not-null="true" />
+        <property name="referenceDate" column="reference_date" type="java.util.Date" not-null="true" />
+        <property name="referenceDateType" column="reference_date_type" type="java.lang.String" />
+		<many-to-one name="schedule" class="org.openmrs.module.scheduletracker.Schedule" not-null="true" />
+        <many-to-one name="startingMilestone" column="starting_milestone" class="org.openmrs.module.scheduletracker.Milestone" not-null="true" />
+        <property name="status" column="status" type="java.lang.String" />
+		
+		<property name="uuid" column="uuid" type="java.lang.String" not-null="true" unique="true"/>
+			
+		<many-to-one name="creator" class="org.openmrs.User" not-null="true" />
+		<property name="dateCreated" column="date_created" type="java.util.Date" not-null="true" />
+		<many-to-one name="changedBy" column="changed_by" class="org.openmrs.User" />
+		<property name="dateChanged" column="date_changed" type="java.util.Date" />
+		<property name="voided" column="voided" type="boolean" not-null="true" />
+		<many-to-one name="voidedBy" column="voided_by" class="org.openmrs.User" />
+		<property name="dateVoided" column="date_voided" type="java.util.Date" />
+		<property name="voidReason" column="void_reason" type="java.lang.String" />
+    </class>
+</hibernate-mapping>
+

@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+ 
+	<changeSet id="scheduletracker-2015-09-09-1" author="maimoonak">
+		<preConditions onFail="MARK_RAN">
+			<not><tableExists tableName="scheduletracker_dependency_type"/></not>
+		</preConditions>
+		<comment>Creating the scheduletracker_dependency_type table</comment>
+		<createTable tableName="scheduletracker_dependency_type">
+			<column name="dependency_type_id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="name" type="varchar(255)">
+			    <constraints nullable="false"/>
+			</column>
+			
+			<column name="description" type="varchar(255)"/>
+			<column name="uuid" type="varchar(255)">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="creator" type="int(11)">
+			    <constraints nullable="false" foreignKeyName="scheduletracker_dependency_type_creator" references="users(user_id)"/>
+			</column>
+			<column name="date_created" type="datetime" >
+			    <constraints nullable="false"/>
+			</column>
+			<column name="changed_by" type="int(11)" >
+			    <constraints foreignKeyName="scheduletracker_dependency_type_changed_by" references="users(user_id)"/>
+			</column>
+			<column name="date_changed" type="datetime" />
+			<column name="voided" type="tinyint">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="voided_by" type="int(11)" >
+			    <constraints foreignKeyName="scheduletracker_dependency_type_voided_by" references="users(user_id)"/>
+			</column>
+			<column name="date_voided" type="datetime" />
+			<column name="void_reason" type="varchar(255)" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="scheduletracker-2015-09-09-2" author="maimoonak">
+		<preConditions onFail="MARK_RAN">
+			<not><tableExists tableName="scheduletracker_schedule"/></not>
+		</preConditions>
+		<comment>Creating the scheduletracker_schedule table</comment>
+		<createTable tableName="scheduletracker_schedule">
+			<column name="schedule_id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+					
+			<column name="name" type="varchar(255)">
+			    <constraints nullable="false" unique="true"/>
+			</column>
+			<column name="type" type="varchar(255)">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="recipient_type" type="varchar(255)" />
+			<column name="reference_date_type" type="varchar(255)" />
+			
+			<column name="description" type="varchar(255)"/>
+			<column name="uuid" type="varchar(255)">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="creator" type="int(11)">
+			    <constraints nullable="false" foreignKeyName="scheduletracker_schedule_creator" references="users(user_id)"/>
+			</column>
+			<column name="date_created" type="datetime" >
+			    <constraints nullable="false"/>
+			</column>
+			<column name="changed_by" type="int(11)" >
+			    <constraints foreignKeyName="scheduletracker_schedule_changed_by" references="users(user_id)"/>
+			</column>
+			<column name="date_changed" type="datetime" />
+			<column name="voided" type="tinyint">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="voided_by" type="int(11)" >
+			    <constraints foreignKeyName="scheduletracker_schedule_voided_by" references="users(user_id)"/>
+			</column>
+			<column name="date_voided" type="datetime" />
+			<column name="void_reason" type="varchar(255)" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="scheduletracker-2015-09-09-3" author="maimoonak">
+		<preConditions onFail="MARK_RAN">
+			<not><tableExists tableName="scheduletracker_dependency"/></not>
+		</preConditions>
+		<comment>Creating the scheduletracker_dependency table</comment>
+		<createTable tableName="scheduletracker_dependency">
+			<column name="dependency_id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="complex_rule" type="varchar(255)"/>
+			<column name="dependency_key" type="varchar(255)"/>
+			<column name="dependency_value" type="varchar(255)"/>
+					
+			<column name="dependency_type" type="int(11)">
+			    <constraints nullable="false" foreignKeyName="scheduletracker_dependency_dependency_type" references="scheduletracker_dependency_type(dependency_type_id)"/>
+			</column>
+			
+			<column name="schedule" type="int(11)">
+			    <constraints nullable="false" foreignKeyName="scheduletracker_dependency_schedule" references="scheduletracker_schedule(schedule_id)"/>
+			</column>
+			
+			<column name="description" type="varchar(255)"/>
+			<column name="uuid" type="varchar(255)">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="creator" type="int(11)">
+			    <constraints nullable="false" foreignKeyName="scheduletracker_dependency_creator" references="users(user_id)"/>
+			</column>
+			<column name="date_created" type="datetime" >
+			    <constraints nullable="false"/>
+			</column>
+			<column name="changed_by" type="int(11)" >
+			    <constraints foreignKeyName="scheduletracker_dependency_changed_by" references="users(user_id)"/>
+			</column>
+			<column name="date_changed" type="datetime" />
+			<column name="voided" type="tinyint">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="voided_by" type="int(11)" >
+			    <constraints foreignKeyName="scheduletracker_dependency_voided_by" references="users(user_id)"/>
+			</column>
+			<column name="date_voided" type="datetime" />
+			<column name="void_reason" type="varchar(255)" />
+		</createTable>
+	</changeSet>
+ 
+	<changeSet id="scheduletracker-2015-09-09-4" author="maimoonak">
+		<preConditions onFail="MARK_RAN">
+			<not><tableExists tableName="scheduletracker_milestone"/></not>
+		</preConditions>
+		<comment>Creating the scheduletracker_milestone table</comment>
+		<createTable tableName="scheduletracker_milestone">
+			<column name="milestone_id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+					
+			<column name="name" type="varchar(255)">
+			    <constraints nullable="false" unique="true"/>
+			</column>
+			
+			<column name="early" type="varchar(255)"/>
+			<column name="early_alert_offset" type="varchar(255)"/>
+			<column name="early_alert_interval" type="varchar(255)"/>
+			<column name="early_alert_count" type="int(11)"/>
+						
+			<column name="due" type="varchar(255)"/>
+			<column name="due_alert_offset" type="varchar(255)"/>
+			<column name="due_alert_interval" type="varchar(255)"/>
+			<column name="due_alert_count" type="int(11)"/>
+			
+			<column name="late" type="varchar(255)"/>
+			<column name="late_alert_offset" type="varchar(255)"/>
+			<column name="late_alert_interval" type="varchar(255)"/>
+			<column name="late_alert_count" type="int(11)"/>
+			
+			<column name="max" type="varchar(255)"/>
+			<column name="max_alert_offset" type="varchar(255)"/>
+			<column name="max_alert_interval" type="varchar(255)"/>
+			<column name="max_alert_count" type="int(11)"/>
+			
+			<column name="schedule" type="int(11)">
+			    <constraints nullable="false" foreignKeyName="scheduletracker_milestone_schedule" references="scheduletracker_schedule(schedule_id)"/>
+			</column>
+			
+			<column name="description" type="varchar(255)"/>
+			<column name="uuid" type="varchar(255)">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="creator" type="int(11)">
+			    <constraints nullable="false" foreignKeyName="scheduletracker_milestone_creator" references="users(user_id)"/>
+			</column>
+			<column name="date_created" type="datetime" >
+			    <constraints nullable="false"/>
+			</column>
+			<column name="changed_by" type="int(11)" >
+			    <constraints foreignKeyName="scheduletracker_milestone_changed_by" references="users(user_id)"/>
+			</column>
+			<column name="date_changed" type="datetime" />
+			<column name="voided" type="tinyint">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="voided_by" type="int(11)" >
+			    <constraints foreignKeyName="scheduletracker_milestone_voided_by" references="users(user_id)"/>
+			</column>
+			<column name="date_voided" type="datetime" />
+			<column name="void_reason" type="varchar(255)" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="scheduletracker-2015-09-09-5" author="maimoonak">
+		<preConditions onFail="MARK_RAN">
+			<not><tableExists tableName="scheduletracker_track"/></not>
+		</preConditions>
+		<comment>Creating the scheduletracker_track table</comment>
+		<createTable tableName="scheduletracker_track">
+			<column name="track_id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+					
+			<column name="beneficiary" type="int(11)">
+			    <constraints nullable="false" foreignKeyName="scheduletracker_track_beneficiary" references="person(person_id)"/>
+			</column>
+			
+			<column name="beneficiary_role" type="varchar(255)" />
+			<column name="recipient" type="int(11)">
+			    <constraints nullable="false" foreignKeyName="scheduletracker_track_recipient" references="person(person_id)"/>
+			</column>
+			<column name="recipient_role" type="varchar(255)" />
+			<column name="current_milestone" type="int(11)">
+			    <constraints nullable="false" foreignKeyName="scheduletracker_track_current_milestone" references="scheduletracker_milestone(milestone_id)"/>
+			</column>
+			<column name="date_enrolled" type="datetime">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="early_start_date" type="datetime">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="due_start_date" type="datetime">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="late_start_date" type="datetime">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="max_start_date" type="datetime">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="preferred_alert_time" type="datetime">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="reference_date" type="datetime">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="reference_date_type" type="varchar(255)" />
+			<column name="schedule" type="int(11)">
+			    <constraints nullable="false" foreignKeyName="scheduletracker_track_schedule" references="scheduletracker_schedule(schedule_id)"/>
+			</column>
+			<column name="starting_milestone" type="int(11)">
+			    <constraints nullable="false" foreignKeyName="scheduletracker_track_starting_milestone" references="scheduletracker_milestone(milestone_id)"/>
+			</column>
+			<column name="status" type="varchar(255)" >
+			    <constraints nullable="false"/>
+			</column>
+
+			<column name="uuid" type="varchar(255)">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="creator" type="int(11)">
+			    <constraints nullable="false" foreignKeyName="scheduletracker_track_creator" references="users(user_id)"/>
+			</column>
+			<column name="date_created" type="datetime" >
+			    <constraints nullable="false"/>
+			</column>
+			<column name="changed_by" type="int(11)" >
+			    <constraints foreignKeyName="scheduletracker_track_changed_by" references="users(user_id)"/>
+			</column>
+			<column name="date_changed" type="datetime" />
+			<column name="voided" type="tinyint">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="voided_by" type="int(11)" >
+			    <constraints foreignKeyName="scheduletracker_track_voided_by" references="users(user_id)"/>
+			</column>
+			<column name="date_voided" type="datetime" />
+			<column name="void_reason" type="varchar(255)" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="scheduletracker-2015-09-09-6" author="maimoonak">
+		<preConditions onFail="MARK_RAN">
+			<not><tableExists tableName="scheduletracker_track_milestone"/></not>
+		</preConditions>
+		<comment>Creating the scheduletracker_track_milestone table</comment>
+		<createTable tableName="scheduletracker_track_milestone">
+			<column name="track_milestone_id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+					
+			<column name="action_type" type="varchar(255)" />
+			<column name="alert_expiry_date" type="datetime">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="alert_start_date" type="datetime">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="fulfillment_date" type="datetime">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="is_active" type="tinyint">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="milestone" type="int(11)">
+			    <constraints nullable="false" foreignKeyName="scheduletracker_track_milestone_milestone" references="scheduletracker_milestone(milestone_id)"/>
+			</column>
+			<column name="reason_closed" type="varchar(255)" />
+			<column name="status" type="varchar(255)" >
+			    <constraints nullable="false"/>
+			</column>
+			<column name="track" type="int(11)">
+			    <constraints nullable="false" foreignKeyName="scheduletracker_track_milestone_track" references="scheduletracker_track(track_id)"/>
+			</column>
+			
+			<column name="uuid" type="varchar(255)">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="creator" type="int(11)">
+			    <constraints nullable="false" foreignKeyName="scheduletracker_track_milestone_creator" references="users(user_id)"/>
+			</column>
+			<column name="date_created" type="datetime" >
+			    <constraints nullable="false"/>
+			</column>
+			<column name="changed_by" type="int(11)" >
+			    <constraints foreignKeyName="scheduletracker_track_milestone_changed_by" references="users(user_id)"/>
+			</column>
+			<column name="date_changed" type="datetime" />
+			<column name="voided" type="tinyint">
+			    <constraints nullable="false"/>
+			</column>
+			<column name="voided_by" type="int(11)" >
+			    <constraints foreignKeyName="scheduletracker_track_milestone_voided_by" references="users(user_id)"/>
+			</column>
+			<column name="date_voided" type="datetime" />
+			<column name="void_reason" type="varchar(255)" />
+		</createTable>
+	</changeSet>
+	
+	<changeSet id="scheduletracker-2015-09-09-7" author="maimoonak">
+		<comment>Inserting basic dependency types</comment>
+		<sql>
+		    INSERT INTO scheduletracker_dependency_type (name, description, uuid, voided, date_created, creator)
+		    VALUES 
+		    ('Schedule', 'Dependency where one schedule is dependent on another schedule', UUID(), 0, NOW(), (SELECT user_id FROM users WHERE username IN ('daemon', 'admin') LIMIT 1)),
+		    ('Encounter', 'Dependency where one schedule is dependent on a particular encounter type', UUID(), 0, NOW(), (SELECT user_id FROM users WHERE username IN ('daemon', 'admin') LIMIT 1)),
+		    ('Obs', 'Dependency where one schedule is dependent on a specific observation value', UUID(), 0, NOW(), (SELECT user_id FROM users WHERE username IN ('daemon', 'admin') LIMIT 1)),
+		    ('Person Attribute', 'Dependency where one schedule is dependent on a specific person attribute value', UUID(), 0, NOW(), (SELECT user_id FROM users WHERE username IN ('daemon', 'admin') LIMIT 1));
+		</sql>
+
+	</changeSet>
+</databaseChangeLog>

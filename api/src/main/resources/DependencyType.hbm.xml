@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+		"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="org.openmrs.module.scheduletracker" >
+    <class name="DependencyType" table="scheduletracker_dependency_type">
+        <id column="dependency_type_id" name="dependencyTypeId" type="int" unsaved-value="0">
+            <generator class="identity"/>
+        </id>
+
+		<property name="name" column="name" type="java.lang.String" not-null="true" unique="true" />
+
+		<property name="description" column="description" type="java.lang.String"/>
+		<property name="uuid" column="uuid" type="java.lang.String" not-null="true" unique="true" />
+			
+		<many-to-one name="creator" class="org.openmrs.User" not-null="true" />
+		<property name="dateCreated" column="date_created" type="java.util.Date" not-null="true" />
+		<many-to-one name="changedBy" column="changed_by" class="org.openmrs.User" />
+		<property name="dateChanged" column="date_changed" type="java.util.Date" />
+		<property name="voided" column="voided" type="boolean" not-null="true" />
+		<many-to-one name="voidedBy" column="voided_by" class="org.openmrs.User" />
+		<property name="dateVoided" column="date_voided" type="java.util.Date" />
+		<property name="voidReason" column="void_reason" type="java.lang.String" />
+    </class>
+</hibernate-mapping>
+
