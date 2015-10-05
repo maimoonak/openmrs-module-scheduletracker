@@ -172,9 +172,9 @@ public class ScheduleServiceImpl extends BaseOpenmrsService implements ScheduleS
 		return scheduleDAO.get(name, readonly);
 	}
 
-	public List<Schedule> searchSchedule(String type, String recipientType,
+	public List<Schedule> searchSchedule(String nameLike, String type, String recipientType,
 			boolean readonly, int firstResult, int maxResults, String[] mappingsToJoin) {
-		return scheduleDAO.search(type, recipientType, readonly, firstResult, maxResults, mappingsToJoin);
+		return scheduleDAO.search(nameLike, type, recipientType, readonly, firstResult, maxResults, mappingsToJoin);
 	}
 
 	public Dependency getDependencyByUuid(String uuid, boolean readonly) {

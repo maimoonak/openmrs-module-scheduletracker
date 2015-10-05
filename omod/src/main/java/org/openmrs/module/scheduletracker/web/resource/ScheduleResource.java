@@ -6,6 +6,7 @@ import org.openmrs.module.scheduletracker.api.ScheduleService;
 import org.openmrs.module.scheduletracker.web.controller.ScheduleTrackerRestController;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
+import org.openmrs.module.webservices.rest.web.annotation.PropertyGetter;
 import org.openmrs.module.webservices.rest.web.annotation.Resource;
 import org.openmrs.module.webservices.rest.web.representation.DefaultRepresentation;
 import org.openmrs.module.webservices.rest.web.representation.FullRepresentation;
@@ -79,9 +80,9 @@ public class ScheduleResource extends DataDelegatingCrudResource<Schedule>{
 
 	@Override
 	public Schedule getByUniqueId(String uniqueid) {
-		Schedule s = Context.getService(ScheduleService.class).getScheduleByUuid(uniqueid, true);
+		Schedule s = Context.getService(ScheduleService.class).getScheduleByUuid(uniqueid, false);
 		if(s == null){
-			s = Context.getService(ScheduleService.class).getSchedule(uniqueid, true);
+			s = Context.getService(ScheduleService.class).getSchedule(uniqueid, false);
 		}
 		return s;
 	}
@@ -92,5 +93,9 @@ public class ScheduleResource extends DataDelegatingCrudResource<Schedule>{
 		
 	}
 
+	@PropertyGetter("display")
+	public String getDisplayString(Schedule schedule){
+		return schedule.getName();
+	}
 	
 }

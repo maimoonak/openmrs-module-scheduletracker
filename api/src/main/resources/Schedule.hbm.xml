@@ -14,12 +14,12 @@
 		<property name="referenceDateType" column="reference_date_type" type="java.lang.String" />
 		
 		<set name="dependencies" lazy="true" cascade="all" inverse="true" access="field" batch-size="25">
-			<key column="schedule_id" not-null="true" />
+			<key column="schedule" not-null="true" />
 			<one-to-many class="Dependency" />
 		</set>
 
 		<set name="milestones" lazy="true" cascade="all" inverse="true" access="field" batch-size="25">
-			<key column="schedule_id" not-null="true" />
+			<key column="schedule" not-null="true" />
 			<one-to-many class="Milestone" />
 		</set>
 		

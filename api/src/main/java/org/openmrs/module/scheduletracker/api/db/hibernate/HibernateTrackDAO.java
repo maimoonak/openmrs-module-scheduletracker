@@ -83,8 +83,7 @@ public class HibernateTrackDAO implements TrackDAO{
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Track> search(String schedule, Integer[] beneficiary,
-			Integer[] recipient, Date from, Date to, String status,
+	public List<Track> search(String schedule, Integer[] beneficiary, Date from, Date to, String status,
 			boolean readonly, int firstResult, int maxResults, String[] mappingsToJoin) {
 		Criteria cri = this.sessionFactory.getCurrentSession().createCriteria(Track.class)
 			      .setReadOnly(readonly);
@@ -95,10 +94,6 @@ public class HibernateTrackDAO implements TrackDAO{
 
 		if(beneficiary != null) {
 			cri.createAlias("beneficiary", "b").add(Restrictions.in("b.personId", beneficiary));
-		}
-
-		if(recipient != null) {
-			cri.createAlias("recipient", "r").add(Restrictions.in("r.personId", recipient));
 		}
 
 		if(from != null && to != null){

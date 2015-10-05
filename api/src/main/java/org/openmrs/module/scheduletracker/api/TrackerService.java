@@ -19,8 +19,7 @@ public interface TrackerService extends OpenmrsService{
 	Serializable saveTrack(Track track);
 	void updateTrack(Track track);
 	void deleteTrack(Track track);
-	List<Track> searchTrack(String schedule, Integer[] beneficiary,
-			Integer[] recipient, Date from, Date to, String status,
+	List<Track> searchTrack(String schedule, Integer[] beneficiary, Date from, Date to, String status,
 			boolean readonly, int firstResult, int maxResults, String[] mappingsToJoin);
 	
 	List<TrackMilestone> getAllTrackMilestone(boolean readonly, int firstResult, int maxResults, String[] mappingsToJoin);
@@ -29,8 +28,8 @@ public interface TrackerService extends OpenmrsService{
 	Serializable saveTrackMilestone(TrackMilestone trackMilestone);
 	void updateTrackMilestone(TrackMilestone trackMilestone);
 	void deleteTrackMilestone(TrackMilestone trackMilestone);
-	List<TrackMilestone> searchTrackMilestone(String schedule, Integer[] beneficiary,
-			Integer[] recipient, Date from, Date to, String status,
+	List<TrackMilestone> searchTrackMilestone(String schedule, Integer[] recipient, Integer[] beneficiary, 
+			Date from, Date to, Date enrollfrom, Date enrollto, String enrollStatus, String alertStatus, 
 			boolean readonly, int firstResult, int maxResults, String[] mappingsToJoin);
 	List<TrackMilestone> getTrackMilestoneBySchedule(int schedule, boolean readonly,
 			int firstResult, int maxResults, String[] mappingsToJoin);

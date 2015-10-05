@@ -8,6 +8,6 @@ public interface ScheduleDAO extends DAO<Schedule>
 {
   Schedule get(String name, boolean readonly);
   
-  List<Schedule> search(String type, String recipientType, 
+  List<Schedule> search(String nameLike, String type, String recipientType, 
 		  boolean readonly, int firstResult, int maxResults, String[] mappingsToJoin);
 }

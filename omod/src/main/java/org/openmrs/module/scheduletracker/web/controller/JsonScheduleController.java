@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 @Controller
 @RequestMapping("/module/scheduletracker/jsonschedule/")
 public class JsonScheduleController {
-	public final static String JSON_SCHEDULE_UPLOAD_FORM_VIEW = "/module/scheduletracker/jsonScheduleUploadForm";
+	public final static String JSON_SCHEDULE_UPLOAD_FORM_VIEW = "/module/scheduletracker/view/jsonScheduleUploadForm";
 
 	@RequestMapping(method = RequestMethod.GET, value = "uploadJsonSchedule.form")
 	public String uploadIntervaOutputView() throws IOException{

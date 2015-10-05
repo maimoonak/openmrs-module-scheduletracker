@@ -10,22 +10,19 @@ import org.openmrs.Person;
 public class Track extends BaseOpenmrsData {
 	private int trackId;
 	private Schedule schedule;
-	private Person recipient;
 	private Person beneficiary;
 	private Time preferredAlertTime;
 	private Date referenceDate;
 	private String referenceDateType;
 	private Date dateEnrolled;
-	private Milestone startingMilestone;
 	private Date earlyStartDate;
 	private Date dueStartDate;
 	private Date lateStartDate;
 	private Date maxStartDate;
 	private Milestone currentMilestone;
 	private String status;
-	private Set<TrackMilestone> milestones;
+	private Set<TrackMilestone> trackMilestones;
 	private String beneficiaryRole;
-	private String recipientRole;
 	
 	public Track() {
 
@@ -45,14 +42,6 @@ public class Track extends BaseOpenmrsData {
 
 	public void setSchedule(Schedule schedule) {
 		this.schedule = schedule;
-	}
-
-	public Person getRecipient() {
-		return recipient;
-	}
-
-	public void setRecipient(Person recipient) {
-		this.recipient = recipient;
 	}
 
 	public Person getBeneficiary() {
@@ -93,14 +82,6 @@ public class Track extends BaseOpenmrsData {
 
 	public void setDateEnrolled(Date dateEnrolled) {
 		this.dateEnrolled = dateEnrolled;
-	}
-
-	public Milestone getStartingMilestone() {
-		return startingMilestone;
-	}
-
-	public void setStartingMilestone(Milestone startingMilestone) {
-		this.startingMilestone = startingMilestone;
 	}
 
 	public Date getEarlyStartDate() {
@@ -151,12 +132,12 @@ public class Track extends BaseOpenmrsData {
 		this.status = status;
 	}
 
-	public Set<TrackMilestone> getMilestones() {
-		return milestones;
+	public Set<TrackMilestone> getTrackMilestones() {
+		return trackMilestones;
 	}
 
-	public void setMilestones(Set<TrackMilestone> milestones) {
-		this.milestones = milestones;
+	public void setTrackMilestones(Set<TrackMilestone> trackMilestones) {
+		this.trackMilestones = trackMilestones;
 	}
 
 	public String getBeneficiaryRole() {
@@ -165,14 +146,6 @@ public class Track extends BaseOpenmrsData {
 
 	public void setBeneficiaryRole(String beneficiaryRole) {
 		this.beneficiaryRole = beneficiaryRole;
-	}
-
-	public String getRecipientRole() {
-		return recipientRole;
-	}
-
-	public void setRecipientRole(String recipientRole) {
-		this.recipientRole = recipientRole;
 	}
 
 	public Integer getId() {

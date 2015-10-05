@@ -3,6 +3,7 @@ package org.openmrs.module.scheduletracker;
 import java.util.Date;
 
 import org.openmrs.BaseOpenmrsData;
+import org.openmrs.Person;
 
 public class TrackMilestone extends BaseOpenmrsData {
 	private int trackMilestoneId;
@@ -15,6 +16,8 @@ public class TrackMilestone extends BaseOpenmrsData {
 	private Date alertExpiryDate;
 	private Boolean isActive;
 	private String actionType;
+	private Person alertRecipient;
+	private String alertRecipientRole;
 	
 	public TrackMilestone() {
 
@@ -98,6 +101,22 @@ public class TrackMilestone extends BaseOpenmrsData {
 
 	public void setActionType(String actionType) {
 		this.actionType = actionType;
+	}
+
+	public Person getAlertRecipient() {
+		return alertRecipient;
+	}
+
+	public void setAlertRecipient(Person alertRecipient) {
+		this.alertRecipient = alertRecipient;
+	}
+
+	public String getAlertRecipientRole() {
+		return alertRecipientRole;
+	}
+
+	public void setAlertRecipientRole(String alertRecipientRole) {
+		this.alertRecipientRole = alertRecipientRole;
 	}
 
 	public Integer getId() {

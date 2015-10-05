@@ -83,8 +83,8 @@ public class HibernateTrackMilestoneDAO implements TrackMilestoneDAO{
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<TrackMilestone> search(String schedule, Integer[] beneficiary,
-			Integer[] recipient, Date from, Date to, String status,
+	public List<TrackMilestone> search(String schedule, Integer[] recipient, Integer[] beneficiary, 
+			Date from, Date to,  Date enrollfrom, Date enrollto, String enrollStatus, String alertStatus, 
 			boolean readonly, int firstResult, int maxResults, String[] mappingsToJoin) {
 		Criteria cri = this.sessionFactory.getCurrentSession().createCriteria(TrackMilestone.class)
 			      .setReadOnly(readonly);
@@ -93,24 +93,32 @@ public class HibernateTrackMilestoneDAO implements TrackMilestoneDAO{
 			cri.createAlias("schedule", "sch").add(Restrictions.eq("sch.name", schedule));
 		}
 
-		if(beneficiary != null) {
-			cri.createAlias("beneficiary", "b").add(Restrictions.in("b.personId", beneficiary));
-		}
-
-		if(recipient != null) {
-			cri.createAlias("recipient", "r").add(Restrictions.in("r.personId", recipient));
+		if(recipient != null && recipient.length > 0) {
+			cri.createAlias("alertRecipient", "r").add(Restrictions.in("r.personId", recipient));
 		}
 
 		if(from != null && to != null){
 			cri.add(Restrictions.disjunction()
-					.add(Restrictions.between("dateEnrolled", from, to))
-					.add(Restrictions.between("earlyStartDate", from, to))
-					.add(Restrictions.between("dueStartDate", from, to))
-					.add(Restrictions.between("lateStartDate", from, to))
-					.add(Restrictions.between("maxStartDate", from, to)));
+					.add(Restrictions.between("alertStartDate", from, to))
+					.add(Restrictions.between("alertExpiryDate", from, to)));
 		}
-		if(status != null){
-			cri.add(Restrictions.eq("status", status));
+		
+		if((enrollfrom != null && enrollto != null) || enrollStatus != null 
+				|| (beneficiary != null && beneficiary.length > 0)){
+			cri.createAlias("track", "t");
+			if(enrollStatus != null){
+				cri.add(Restrictions.eq("t.status", enrollStatus));
+			}
+			if(enrollfrom != null && enrollto != null){
+				cri.add(Restrictions.between("t.dateEnrolled", from, to));
+			}
+			if(beneficiary != null && beneficiary.length > 0){
+				cri.createAlias("t.beneficiary", "tb").add(Restrictions.in("tb.personId", beneficiary));
+			}
+		}
+		
+		if(alertStatus != null){
+			cri.add(Restrictions.eq("status", alertStatus));
 		}
 
 		if (mappingsToJoin != null)

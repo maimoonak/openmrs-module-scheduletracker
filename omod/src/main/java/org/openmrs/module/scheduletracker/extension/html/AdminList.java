@@ -48,7 +48,8 @@ public class AdminList extends AdministrationSectionExt {
 		Map<String, String> map = new HashMap<String, String>();
 		
 		map.put("module/scheduletracker/jsonschedule/uploadJsonSchedule.form", "Upload JSON schedule");
-		
+		map.put("module/scheduletracker/track/viewTrack.form", "Track Schedules");
+		map.put("module/scheduletracker/schedule/viewSchedule.form", "View Schedules");
 		return map;
 	}
 	

@@ -15,6 +15,8 @@
         <property name="reasonClosed" column="reason_closed" type="java.lang.String" />
         <property name="status" column="status" type="java.lang.String" not-null="true"/>
 		<many-to-one name="track" class="org.openmrs.module.scheduletracker.Track" not-null="true" />
+		<many-to-one name="alertRecipient" column="alert_recipient" class="org.openmrs.Person" not-null="true" />
+        <property name="alertRecipientRole" column="alert_recipient_role" type="java.lang.String" />
 		
 		<property name="uuid" column="uuid" type="java.lang.String" not-null="true" unique="true"/>
 			

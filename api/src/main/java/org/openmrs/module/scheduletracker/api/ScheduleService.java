@@ -46,6 +46,6 @@ public interface ScheduleService extends OpenmrsService{
 	void updateSchedule(Schedule schedule);
 	void deleteSchedule(Schedule schedule);
 	Schedule getSchedule(String name, boolean readonly);
-	List<Schedule> searchSchedule(String type, String recipientType,
+	List<Schedule> searchSchedule(String nameLike, String type, String recipientType,
 			boolean readonly, int firstResult, int maxResults, String[] mappingsToJoin);
 }

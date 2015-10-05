@@ -6,6 +6,7 @@ import org.openmrs.module.scheduletracker.api.TrackerService;
 import org.openmrs.module.scheduletracker.web.controller.ScheduleTrackerRestController;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
+import org.openmrs.module.webservices.rest.web.annotation.PropertyGetter;
 import org.openmrs.module.webservices.rest.web.annotation.Resource;
 import org.openmrs.module.webservices.rest.web.representation.DefaultRepresentation;
 import org.openmrs.module.webservices.rest.web.representation.FullRepresentation;
@@ -24,12 +25,10 @@ public class TrackResource extends DataDelegatingCrudResource<Track>{
 			description.addProperty("uuid");
 			description.addProperty("display");
 			description.addProperty("beneficiary", Representation.REF);
-			description.addProperty("recipient", Representation.REF);
 			description.addProperty("schedule", Representation.REF);
 			description.addProperty("preferredAlertTime");
 			description.addProperty("referenceDate");
 			description.addProperty("dateEnrolled");
-			description.addProperty("startingMilestone", Representation.REF);
 			description.addProperty("currentMilestone", Representation.REF);
 			description.addProperty("status");
 			description.addProperty("voided");
@@ -41,22 +40,15 @@ public class TrackResource extends DataDelegatingCrudResource<Track>{
 			description.addProperty("uuid");
 			description.addProperty("display");
 			description.addProperty("beneficiary", Representation.REF);
-			description.addProperty("recipient", Representation.REF);
 			description.addProperty("schedule", Representation.REF);
 			description.addProperty("beneficiaryRole");
-			description.addProperty("recipientRole");
 			description.addProperty("preferredAlertTime");
 			description.addProperty("referenceDate");
 			description.addProperty("referenceDateType");
 			description.addProperty("dateEnrolled");
-			description.addProperty("startingMilestone", Representation.REF);
-			description.addProperty("earlyStartDate");
-			description.addProperty("dueStartDate");
-			description.addProperty("lateStartDate");
-			description.addProperty("maxStartDate");
 			description.addProperty("currentMilestone", Representation.REF);
 			description.addProperty("status");
-			description.addProperty("milestones", Representation.REF);
+			description.addProperty("trackMilestones", Representation.REF);
 			description.addProperty("voided");
 			description.addProperty("auditInfo", findMethod("getAuditInfo"));
 			description.addSelfLink();
@@ -73,31 +65,36 @@ public class TrackResource extends DataDelegatingCrudResource<Track>{
 	public DelegatingResourceDescription getCreatableProperties()  {
 		DelegatingResourceDescription description = new DelegatingResourceDescription();
 		description.addProperty("beneficiary");
-		description.addProperty("recipient");
-		description.addProperty("schedule");//
+		description.addRequiredProperty("schedule");
 		description.addProperty("beneficiaryRole");
-		description.addProperty("recipientRole");
-		description.addProperty("preferredAlertTime");//
-		description.addProperty("referenceDate");//
-		description.addProperty("referenceDateType");//
-		description.addProperty("dateEnrolled");//
-		description.addProperty("startingMilestone");//
-		description.addProperty("earlyStartDate");//
-		description.addProperty("dueStartDate");//
-		description.addProperty("lateStartDate");//
-		description.addProperty("maxStartDate");//
-		description.addProperty("currentMilestone");//
+		description.addRequiredProperty("preferredAlertTime");
+		description.addRequiredProperty("referenceDate");
+		description.addRequiredProperty("referenceDateType");
+		description.addRequiredProperty("dateEnrolled");
+		description.addProperty("currentMilestone");
 		description.addRequiredProperty("status");
-		description.addProperty("milestones");
+		return description;
+	}
+
+	@Override
+	public DelegatingResourceDescription getUpdatableProperties()  {
+		DelegatingResourceDescription description = new DelegatingResourceDescription();
+		description.addProperty("beneficiaryRole");
+		description.addRequiredProperty("preferredAlertTime");
+		description.addProperty("currentMilestone");
+		description.addRequiredProperty("status");
 		return description;
 	}
 	
 	public Track save(Track track) {
-		//TODO
+		if(track.getTrackId() > 0){
+			Context.getService(TrackerService.class).updateTrack(track);
+			return track;
+		}
 		Context.getService(TrackerService.class).saveTrack(track);
 		return track;
 	}
-
+	
 	@Override
 	protected void delete(Track track, String reason, RequestContext context) throws ResponseException {
 		// TODO Auto-generated method stub
@@ -106,7 +103,7 @@ public class TrackResource extends DataDelegatingCrudResource<Track>{
 
 	@Override
 	public Track getByUniqueId(String uniqueid) {
-		return Context.getService(TrackerService.class).getTrackByUuid(uniqueid, true);
+		return Context.getService(TrackerService.class).getTrackByUuid(uniqueid, false);
 	}
 
 	@Override
@@ -115,5 +112,9 @@ public class TrackResource extends DataDelegatingCrudResource<Track>{
 		
 	}
 
+	@PropertyGetter("display")
+	public String getDisplayString(Track track){
+		return track.getBeneficiary()+"-"+track.getStatus()+" "+track.getSchedule().getName();
+	}
 	
 }

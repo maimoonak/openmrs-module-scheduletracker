@@ -6,6 +6,6 @@ import java.util.List;
 import org.openmrs.module.scheduletracker.Track;
 
 public interface TrackDAO extends DAO<Track> {
-	List<Track> search(String schedule, Integer[] beneficiary, Integer[] recipient, Date from, Date to, String status,
+	List<Track> search(String schedule, Integer[] beneficiary, Date from, Date to, String status,
 			  boolean readonly, int firstResult, int maxResults, String[] mappingsToJoin);
 }

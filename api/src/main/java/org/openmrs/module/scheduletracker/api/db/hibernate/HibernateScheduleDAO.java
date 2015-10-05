@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.module.scheduletracker.Schedule;
@@ -97,13 +98,17 @@ public class HibernateScheduleDAO implements ScheduleDAO{
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Schedule> search(String type, String recipientType,
+	public List<Schedule> search(String nameLike, String type, String recipientType,
 			boolean readonly, int firstResult, int maxResults, String[] mappingsToJoin) {
 		Criteria cri = this.sessionFactory.getCurrentSession().createCriteria(Schedule.class)
 			      .setReadOnly(readonly);
 	    
 		if(type != null) {
 			cri.add(Restrictions.eq("type", type));
+		}
+		
+		if(nameLike != null){
+			cri.add(Restrictions.ilike("name", nameLike, MatchMode.ANYWHERE));
 		}
 
 		if(recipientType != null){

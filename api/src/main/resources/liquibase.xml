@@ -211,26 +211,10 @@
 			</column>
 			
 			<column name="beneficiary_role" type="varchar(255)" />
-			<column name="recipient" type="int(11)">
-			    <constraints nullable="false" foreignKeyName="scheduletracker_track_recipient" references="person(person_id)"/>
-			</column>
-			<column name="recipient_role" type="varchar(255)" />
 			<column name="current_milestone" type="int(11)">
-			    <constraints nullable="false" foreignKeyName="scheduletracker_track_current_milestone" references="scheduletracker_milestone(milestone_id)"/>
+			    <constraints foreignKeyName="scheduletracker_track_current_milestone" references="scheduletracker_milestone(milestone_id)"/>
 			</column>
 			<column name="date_enrolled" type="datetime">
-			    <constraints nullable="false"/>
-			</column>
-			<column name="early_start_date" type="datetime">
-			    <constraints nullable="false"/>
-			</column>
-			<column name="due_start_date" type="datetime">
-			    <constraints nullable="false"/>
-			</column>
-			<column name="late_start_date" type="datetime">
-			    <constraints nullable="false"/>
-			</column>
-			<column name="max_start_date" type="datetime">
 			    <constraints nullable="false"/>
 			</column>
 			<column name="preferred_alert_time" type="datetime">
@@ -242,9 +226,6 @@
 			<column name="reference_date_type" type="varchar(255)" />
 			<column name="schedule" type="int(11)">
 			    <constraints nullable="false" foreignKeyName="scheduletracker_track_schedule" references="scheduletracker_schedule(schedule_id)"/>
-			</column>
-			<column name="starting_milestone" type="int(11)">
-			    <constraints nullable="false" foreignKeyName="scheduletracker_track_starting_milestone" references="scheduletracker_milestone(milestone_id)"/>
 			</column>
 			<column name="status" type="varchar(255)" >
 			    <constraints nullable="false"/>
@@ -291,9 +272,7 @@
 			<column name="alert_start_date" type="datetime">
 			    <constraints nullable="false"/>
 			</column>
-			<column name="fulfillment_date" type="datetime">
-			    <constraints nullable="false"/>
-			</column>
+			<column name="fulfillment_date" type="datetime"/>
 			<column name="is_active" type="tinyint">
 			    <constraints nullable="false"/>
 			</column>
@@ -307,6 +286,10 @@
 			<column name="track" type="int(11)">
 			    <constraints nullable="false" foreignKeyName="scheduletracker_track_milestone_track" references="scheduletracker_track(track_id)"/>
 			</column>
+			<column name="alert_recipient" type="int(11)">
+			    <constraints nullable="false" foreignKeyName="scheduletracker_track_milestone_recipient" references="person(person_id)"/>
+			</column>
+			<column name="alert_recipient_role" type="varchar(255)" />
 			
 			<column name="uuid" type="varchar(255)">
 			    <constraints nullable="false"/>

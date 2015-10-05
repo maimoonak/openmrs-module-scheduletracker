@@ -50,10 +50,9 @@ public class TrackerServiceImpl extends BaseOpenmrsService implements TrackerSer
 	public void deleteTrack(Track track) {
 		trackDAO.delete(track);
 	}
-	public List<Track> searchTrack(String schedule, Integer[] beneficiary,
-			Integer[] recipient, Date from, Date to, String status,
+	public List<Track> searchTrack(String schedule, Integer[] beneficiary, Date from, Date to, String status,
 			boolean readonly, int firstResult, int maxResults, String[] mappingsToJoin) {
-		return trackDAO.search(schedule, beneficiary, recipient, from, to, status, readonly, firstResult, maxResults, mappingsToJoin);
+		return trackDAO.search(schedule, beneficiary, from, to, status, readonly, firstResult, maxResults, mappingsToJoin);
 	}
 	
 	public List<TrackMilestone> getAllTrackMilestone(boolean readonly, int firstResult, int maxResults, String[] mappingsToJoin) {
@@ -71,10 +70,10 @@ public class TrackerServiceImpl extends BaseOpenmrsService implements TrackerSer
 	public void deleteTrackMilestone(TrackMilestone trackMilestone) {
 		trackMilestoneDAO.delete(trackMilestone);
 	}
-	public List<TrackMilestone> searchTrackMilestone(String schedule, Integer[] beneficiary, Integer[] recipient, Date from, Date to,
-			String status, boolean readonly, int firstResult, int maxResults, String[] mappingsToJoin) {
+	public List<TrackMilestone> searchTrackMilestone(String schedule, Integer[] recipient, Integer[] beneficiary, Date from, Date to, 
+			Date enrollfrom, Date enrollto, String enrollStatus, String alertStatus, boolean readonly, int firstResult, int maxResults, String[] mappingsToJoin) {
 		//TODO
-		return trackMilestoneDAO.search(schedule, beneficiary, recipient, from, to, status, readonly, firstResult, maxResults, mappingsToJoin);
+		return trackMilestoneDAO.search(schedule, recipient, beneficiary, from, to, enrollfrom, enrollto, enrollStatus, alertStatus, readonly, firstResult, maxResults, mappingsToJoin);
 	}
 	public List<TrackMilestone> getTrackMilestoneBySchedule(int schedule,
 			boolean readonly, int firstResult, int maxResults, String[] mappingsToJoin) {

@@ -12,7 +12,6 @@ public interface TrackMilestoneDAO extends DAO<TrackMilestone>{
 
 	List<TrackMilestone> getByMilestone(int milestone, boolean readonly, int firstResult, int maxResults, String[] mappingsToJoin);
 
-	List<TrackMilestone> search(String schedule, Integer[] beneficiary,
-			Integer[] recipient, Date from, Date to, String status,
-			boolean readonly, int firstResult, int maxResults, String[] mappingsToJoin);
+	List<TrackMilestone> search(String schedule, Integer[] recipient, Integer[] beneficiary, Date from, Date to, 
+			Date enrollfrom, Date enrollto, String enrollStatus, String alertStatus, boolean readonly, int firstResult, int maxResults, String[] mappingsToJoin);
 }
