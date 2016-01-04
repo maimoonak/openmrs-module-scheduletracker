@@ -13,6 +13,7 @@ import org.openmrs.module.scheduletracker.web.util.ScheduleUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -27,7 +28,7 @@ public class JsonScheduleController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "uploadJsonSchedule.form")
-	public String uploadIntervaOutput(HttpServletRequest request, HttpServletResponse response, Map model) throws IOException{
+	public String uploadJsonSchedule(HttpServletRequest request, HttpServletResponse response, Map model) throws IOException{
 		String message = "File uploaded successfully.";
 		try{
 			Schedule s = parseUploadedFile(request);
@@ -40,6 +41,23 @@ public class JsonScheduleController {
 		model.put("message", message);
 		
 		return JSON_SCHEDULE_UPLOAD_FORM_VIEW;
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(method = RequestMethod.POST, value = "saveJsonSchedule.form")
+	public @ResponseBody Map saveJsonSchedule(HttpServletRequest request, HttpServletResponse response, Map model) throws IOException{
+		String message = "SUCCESS: Schedule uploaded successfully.";
+		try{
+			Schedule s = ScheduleUtils.parseScheduleFromJson(request.getInputStream());
+			Context.getService(ScheduleService.class).saveSchedule(s);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			message = "ERROR: Schedule invalid: "+e.getMessage();
+		}
+		model.put("message", message);
+		
+		return model;
 	}
 	
 	private Schedule parseUploadedFile(HttpServletRequest request) throws IOException{
